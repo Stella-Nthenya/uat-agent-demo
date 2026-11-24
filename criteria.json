@@ -1,0 +1,11 @@
+[
+ {"id":"AC1","text":"A shopper with valid credentials lands on the product list."},
+ {"id":"AC2","text":"A locked-out shopper sees an error saying the account is locked out."},
+ {"id":"AC3","text":"Sorting by price low to high puts products in ascending price order."},
+ {"id":"AC4","text":"The cart badge shows the number of items added to the cart."},
+ {"id":"AC5","text":"Checkout does not continue without a postal code and tells the shopper it is required."},
+ {"id":"AC6","text":"The order total equals the item total plus tax."},
+ {"id":"AC7","text":"The demo account problem_user sees a different image for each product."},
+ {"id":"AC8","text":"The shopper receives an order confirmation email after checkout."},
+ {"id":"AC9","text":"A signed-in store manager can open the refunds page. (Manager credentials have not been provided.)"}
+]

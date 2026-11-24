@@ -1,0 +1,1 @@
+{"name":"uat-agent-demo","private":true,"type":"module","scripts":{"plan":"node src/plan.mjs","uat":"node src/run.mjs"},"devDependencies":{"@playwright/test":"1.62.1"}}

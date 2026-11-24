@@ -1,0 +1,264 @@
+{
+  "target": "https://www.saucedemo.com",
+  "results": [
+    {
+      "id": "AC1",
+      "text": "A shopper with valid credentials lands on the product list.",
+      "outcome": "PASS",
+      "detail": "After logging in with valid credentials, being on the /inventory.html URL with all six products shown proves the shopper landed on the product list.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "standard_user"
+        },
+        {
+          "do": "urlContains",
+          "text": "/inventory.html"
+        },
+        {
+          "do": "countIs",
+          "id": "inventory-item",
+          "n": 6
+        }
+      ],
+      "shot": "evidence/AC1.png"
+    },
+    {
+      "id": "AC2",
+      "text": "A locked-out shopper sees an error saying the account is locked out.",
+      "outcome": "PASS",
+      "detail": "The error element is read directly after the locked-out login attempt and must state that the account is locked out.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "locked_out_user"
+        },
+        {
+          "do": "textContains",
+          "id": "error",
+          "text": "locked out"
+        }
+      ],
+      "shot": "evidence/AC2.png"
+    },
+    {
+      "id": "AC3",
+      "text": "Sorting by price low to high puts products in ascending price order.",
+      "outcome": "PASS",
+      "detail": "After selecting low to high, the displayed prices are checked for ascending order across all six products, so the check cannot pass on an empty list.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "standard_user"
+        },
+        {
+          "do": "select",
+          "id": "product-sort-container",
+          "value": "lohi"
+        },
+        {
+          "do": "countIs",
+          "id": "inventory-item",
+          "n": 6
+        },
+        {
+          "do": "pricesAscending"
+        }
+      ],
+      "shot": "evidence/AC3.png"
+    },
+    {
+      "id": "AC4",
+      "text": "The cart badge shows the number of items added to the cart.",
+      "outcome": "PASS",
+      "detail": "After two different items are added, the badge must show 2, which proves it counts the items rather than only indicating a non-empty cart.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "standard_user"
+        },
+        {
+          "do": "click",
+          "id": "add-to-cart-sauce-labs-backpack"
+        },
+        {
+          "do": "click",
+          "id": "add-to-cart-sauce-labs-bike-light"
+        },
+        {
+          "do": "textContains",
+          "id": "shopping-cart-badge",
+          "text": "2"
+        }
+      ],
+      "shot": "evidence/AC4.png"
+    },
+    {
+      "id": "AC5",
+      "text": "Checkout does not continue without a postal code and tells the shopper it is required.",
+      "outcome": "PASS",
+      "detail": "With only the postal code missing, remaining on checkout step one proves checkout did not continue and the error text proves the shopper is told it is required.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "standard_user"
+        },
+        {
+          "do": "click",
+          "id": "add-to-cart-sauce-labs-backpack"
+        },
+        {
+          "do": "click",
+          "id": "shopping-cart-link"
+        },
+        {
+          "do": "click",
+          "id": "checkout"
+        },
+        {
+          "do": "fill",
+          "id": "firstName",
+          "value": "Test"
+        },
+        {
+          "do": "fill",
+          "id": "lastName",
+          "value": "Shopper"
+        },
+        {
+          "do": "click",
+          "id": "continue"
+        },
+        {
+          "do": "urlContains",
+          "text": "/checkout-step-one.html"
+        },
+        {
+          "do": "textContains",
+          "id": "error",
+          "text": "Postal Code is required"
+        }
+      ],
+      "shot": "evidence/AC5.png"
+    },
+    {
+      "id": "AC6",
+      "text": "The order total equals the item total plus tax.",
+      "outcome": "PASS",
+      "detail": "On the order overview for a two-item order, the check directly compares the displayed total with the displayed item total plus tax.",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "standard_user"
+        },
+        {
+          "do": "click",
+          "id": "add-to-cart-sauce-labs-backpack"
+        },
+        {
+          "do": "click",
+          "id": "add-to-cart-sauce-labs-bike-light"
+        },
+        {
+          "do": "click",
+          "id": "shopping-cart-link"
+        },
+        {
+          "do": "click",
+          "id": "checkout"
+        },
+        {
+          "do": "fill",
+          "id": "firstName",
+          "value": "Test"
+        },
+        {
+          "do": "fill",
+          "id": "lastName",
+          "value": "Shopper"
+        },
+        {
+          "do": "fill",
+          "id": "postalCode",
+          "value": "12345"
+        },
+        {
+          "do": "click",
+          "id": "continue"
+        },
+        {
+          "do": "urlContains",
+          "text": "/checkout-step-two.html"
+        },
+        {
+          "do": "totalIsSubtotalPlusTax"
+        }
+      ],
+      "shot": "evidence/AC6.png"
+    },
+    {
+      "id": "AC7",
+      "text": "The demo account problem_user sees a different image for each product.",
+      "outcome": "FAIL",
+      "detail": "each product should have its own image; observed [\"sl-404-Cq1a9k9X.jpg\",\"sl-404-Cq1a9k9X.jpg\",\"sl-404-Cq1a9k9X.jpg\",\"sl-404-Cq1a9k9X.jpg\",\"sl-404-Cq1a9k9X.jpg\",\"sl-404-Cq1a9k9X.jpg\"]",
+      "log": [
+        {
+          "do": "goto",
+          "path": "/"
+        },
+        {
+          "do": "login",
+          "user": "problem_user"
+        },
+        {
+          "do": "urlContains",
+          "text": "/inventory.html"
+        },
+        {
+          "do": "countIs",
+          "id": "inventory-item",
+          "n": 6
+        }
+      ],
+      "shot": "evidence/AC7.png"
+    },
+    {
+      "id": "AC8",
+      "text": "The shopper receives an order confirmation email after checkout.",
+      "outcome": "NOT COVERED",
+      "detail": "The available tools only observe the website and cannot see an email inbox, and the on-screen confirmation would not prove that an email was received.",
+      "log": []
+    },
+    {
+      "id": "AC9",
+      "text": "A signed-in store manager can open the refunds page. (Manager credentials have not been provided.)",
+      "outcome": "BLOCKED",
+      "detail": "Store manager credentials have not been provided, so a signed-in manager session cannot be established to test access to the refunds page.",
+      "log": []
+    }
+  ]
+}
